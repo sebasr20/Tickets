@@ -5,9 +5,11 @@
  */
 package vistas;
 
+import controlador.RegistroCategoria;
 import controlador.RegistroCliente;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import modelo.Categoria;
 import modelo.Cliente;
 
 /**
@@ -39,6 +41,7 @@ public class ListarCliente extends javax.swing.JFrame {
         jtblClientes = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Listar Clientes");
 
         jLabel1.setText("RUN");
 
@@ -104,14 +107,16 @@ public class ListarCliente extends javax.swing.JFrame {
         String appaterno;
         String apmaterno;
         int categoria;
+        String nomCategoria;
         //int idcat=0;
 
         RegistroCliente regcli = new RegistroCliente();
+        RegistroCategoria regcat = new RegistroCategoria();
         DefaultTableModel modelo = (DefaultTableModel) this.jtblClientes.getModel();
 
         try {
             rutCliente = this.jtxtRun.getText();
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             rutCliente = "";
         }
 
@@ -119,17 +124,19 @@ public class ListarCliente extends javax.swing.JFrame {
 
         if (rutCliente.isEmpty()) {//listar todos
             List<Cliente> lista = regcli.buscarTodos();
+
             for (Cliente cliente : lista) {
                 rutCliente = cliente.getRutCliente();
                 nombre = cliente.getNombre();
                 appaterno = cliente.getAppaterno();
                 apmaterno = cliente.getApmaterno();
                 categoria = cliente.getCategoria();
-
-                modelo.addRow(new Object[]{rutCliente, nombre, appaterno, apmaterno, categoria});
+                
+                nomCategoria = this.consultarCategoria(categoria);
+                modelo.addRow(new Object[]{rutCliente, nombre, appaterno, apmaterno, nomCategoria});
             }
 
-        } else { //listar por id
+        } else { //listar por rut
 
             Cliente cliente = regcli.buscarPorRut(rutCliente);
             rutCliente = cliente.getRutCliente();
@@ -138,9 +145,19 @@ public class ListarCliente extends javax.swing.JFrame {
             apmaterno = cliente.getApmaterno();
             categoria = cliente.getCategoria();
             
-            modelo.addRow(new Object[]{rutCliente, nombre, appaterno, apmaterno, categoria});
+            nomCategoria = this.consultarCategoria(categoria);
+            modelo.addRow(new Object[]{rutCliente, nombre, appaterno, apmaterno, nomCategoria});
         }
     }//GEN-LAST:event_jbtnBuscarActionPerformed
+
+    private String consultarCategoria(int idCat) {
+        String cat;
+        RegistroCategoria rc = new RegistroCategoria();
+        Categoria categoria = rc.buscarPorId(idCat);
+        cat = categoria.getNombreCategoria();
+
+        return cat;
+    }
 
     /**
      * @param args the command line arguments

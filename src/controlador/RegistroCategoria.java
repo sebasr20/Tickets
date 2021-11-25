@@ -49,4 +49,33 @@ public class RegistroCategoria {
         }
         return lista;
     }
+    
+    public Categoria buscarPorId(int idCategoria) {
+
+        Categoria categoria = new Categoria();
+        try {
+            Conexion con = new Conexion();
+            Connection cnx = con.obtenerConexion();
+
+            String query = "SELECT idCategoria,nombreCategoria FROM categoria WHERE idCategoria = ?";
+            
+            PreparedStatement stmt = cnx.prepareStatement(query);
+            stmt.setInt(1, idCategoria);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                categoria.setIdcategoria(rs.getInt("idcategoria"));
+                categoria.setNombreCategoria(rs.getString("nombreCategoria"));
+
+            }
+            rs.close();
+            stmt.close();
+            cnx.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error SQL al listar libro por ID " + e.getMessage());
+        }
+        return categoria;
+    }
 }

@@ -58,7 +58,7 @@ public class RegistroCliente {
             String query = "SELECT rutCliente,nombre,appaterno,apmaterno,idCategoria FROM cliente WHERE rutCliente = ?";
             
             PreparedStatement stmt = cnx.prepareStatement(query);
-            stmt.setString(1, cliente.getRutCliente());
+            stmt.setString(1, rutCliente);
 
             ResultSet rs = stmt.executeQuery();
 
