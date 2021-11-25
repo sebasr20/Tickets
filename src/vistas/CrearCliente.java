@@ -214,7 +214,6 @@ public class CrearCliente extends javax.swing.JFrame {
 
 
     private void llenarCategoria() {
-
         String categoria;
         int idcategoria;
 

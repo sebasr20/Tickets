@@ -12,32 +12,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import modelo.Categoria;
-
+import modelo.Equipo;
 
 /**
  *
  * @author Sebastian
  */
-public class RegistroCategoria {
-    public List<Categoria> buscarTodos() {
+public class RegistroEquipo {
+    public List<Equipo> buscarTodos() {
 
-        List<Categoria> lista = new ArrayList<>();
+        List<Equipo> lista = new ArrayList<>();
         try {
             Conexion con = new Conexion();
             Connection cnx = con.obtenerConexion();
 
-            String query = "SELECT idcategoria, nombreCategoria FROM categoria order by idcategoria";
+            String query = "SELECT idEquipo, nombreEquipo FROM equipo order by idEquipo";
             PreparedStatement stmt = cnx.prepareStatement(query);
 
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Categoria categoria = new Categoria();
-                categoria.setIdcategoria(rs.getInt("idcategoria"));
-                categoria.setNombreCategoria(rs.getString("nombreCategoria"));
+                Equipo equipo = new Equipo();
+                equipo.setIdEquipo(rs.getInt("idEquipo"));
+                equipo.setNombreEquipo(rs.getString("nombreEquipo"));
 
-                lista.add(categoria);
+                lista.add(equipo);
             }
             rs.close();
             stmt.close();
@@ -45,14 +44,14 @@ public class RegistroCategoria {
 
         } catch (SQLException e) {
             System.out.println("Error SQL "
-                    + "al listar categoria " + e.getMessage());
+                    + "al listar equipos " + e.getMessage());
         }
         return lista;
     }
     
-    public Categoria buscarPorId(int idCategoria) {
+    public Equipo buscarPorId(int idEquipo) {
 
-        Categoria categoria = new Categoria();
+        Equipo equipo = new Equipo();
         try {
             Conexion con = new Conexion();
             Connection cnx = con.obtenerConexion();
@@ -60,13 +59,13 @@ public class RegistroCategoria {
             String query = "SELECT idCategoria,nombreCategoria FROM categoria WHERE idCategoria = ?";
             
             PreparedStatement stmt = cnx.prepareStatement(query);
-            stmt.setInt(1, idCategoria);
+            stmt.setInt(1, idEquipo);
 
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                categoria.setIdcategoria(rs.getInt("idcategoria"));
-                categoria.setNombreCategoria(rs.getString("nombreCategoria"));
+                equipo.setIdEquipo(rs.getInt("idEquipo"));
+                equipo.setNombreEquipo(rs.getString("nombreEquipo"));
 
             }
             rs.close();
@@ -74,8 +73,8 @@ public class RegistroCategoria {
             cnx.close();
 
         } catch (SQLException e) {
-            System.out.println("Error SQL al listar categoría por ID " + e.getMessage());
+            System.out.println("Error SQL al listar equipos por ID " + e.getMessage());
         }
-        return categoria;
+        return equipo;
     }
 }

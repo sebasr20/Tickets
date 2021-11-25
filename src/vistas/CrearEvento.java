@@ -5,6 +5,17 @@
  */
 package vistas;
 
+import controlador.RegistroEquipo;
+import controlador.RegistroEvento;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import modelo.Equipo;
+import modelo.Evento;
+
 /**
  *
  * @author Sebastian
@@ -16,6 +27,11 @@ public class CrearEvento extends javax.swing.JFrame {
      */
     public CrearEvento() {
         initComponents();
+        llenarEquipos();
+        this.jbtnCancelar.requestFocus();
+        
+        
+        
     }
 
     /**
@@ -27,21 +43,330 @@ public class CrearEvento extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel4 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jtxtDescripcion = new javax.swing.JTextField();
+        jlblLocal = new javax.swing.JLabel();
+        jcmbEquipo = new javax.swing.JComboBox<>();
+        jbtnGuardar = new javax.swing.JButton();
+        jtxtFechaCampeonato = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jtxtDia = new javax.swing.JTextField();
+        jtxtMes = new javax.swing.JTextField();
+        jtxtYear = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jbtnCancelar = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jcbmHora = new javax.swing.JComboBox<>();
+        jcbmMinuto = new javax.swing.JComboBox<>();
+        jchkEstado = new javax.swing.JCheckBox();
+
+        jLabel4.setText("/");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("Evento:");
+
+        jLabel2.setText("Campeonato:");
+
+        jtxtDescripcion.setText("Campeonato PlanVital 2021");
+        jtxtDescripcion.setToolTipText("");
+        jtxtDescripcion.setEnabled(false);
+
+        jlblLocal.setText("COLO COLO vs. ");
+
+        jbtnGuardar.setText("Guardar");
+        jbtnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnGuardarActionPerformed(evt);
+            }
+        });
+
+        jtxtFechaCampeonato.setText("#");
+        jtxtFechaCampeonato.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtxtFechaCampeonatoFocusGained(evt);
+            }
+        });
+
+        jLabel3.setText("Fecha Partido:");
+
+        jtxtDia.setText("DIA");
+        jtxtDia.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtxtDiaFocusGained(evt);
+            }
+        });
+
+        jtxtMes.setText("MES");
+        jtxtMes.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtxtMesFocusGained(evt);
+            }
+        });
+
+        jtxtYear.setText("AÑO");
+        jtxtYear.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtxtYearFocusGained(evt);
+            }
+        });
+
+        jLabel5.setText("/");
+
+        jLabel6.setText("/");
+
+        jLabel7.setText("Hora:");
+
+        jbtnCancelar.setText("Cancelar");
+        jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCancelarActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel9.setText("CREAR EVENTO");
+
+        jLabel10.setText("Jornada");
+
+        jcbmHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24" }));
+
+        jcbmMinuto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+
+        jchkEstado.setText("Disponible");
+        jchkEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jchkEstadoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel1))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jtxtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jtxtFechaCampeonato, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jlblLocal)
+                                        .addGap(4, 4, 4)
+                                        .addComponent(jcmbEquipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jtxtDia, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(9, 9, 9)
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jtxtMes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jbtnCancelar)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jbtnGuardar))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel5)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jtxtYear, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jchkEstado)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jcbmHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jcbmMinuto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(252, 252, 252)
+                        .addComponent(jLabel9)))
+                .addContainerGap(260, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(13, 13, 13)
+                .addComponent(jLabel9)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jlblLocal)
+                    .addComponent(jcmbEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jtxtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtFechaCampeonato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jtxtDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jcbmHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcbmMinuto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jchkEstado)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnCancelar)
+                    .addComponent(jbtnGuardar))
+                .addGap(30, 30, 30))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jbtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarActionPerformed
+        String nombreEvento,descripcionEvento,fechaCampeonato,dia,mes,year,fechaStr,hora,minuto; 
+        Date fechaEvento;
+        String horaEvento;
+        int visita;
+        boolean disponible;
+        //Nombre del Evento
+        nombreEvento = this.jlblLocal.getText() + this.jcmbEquipo.getSelectedItem();
+        
+        visita = this.jcmbEquipo.getSelectedIndex() + 1;
+        
+        //Fecha del Campeonato EJ. Fecha 33
+        fechaCampeonato = this.jtxtFechaCampeonato.getText();
+        if (fechaCampeonato.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese Fecha del Campeonato", "Validación",1);
+            this.jtxtDescripcion.requestFocus();
+            return;
+        }
+        
+        descripcionEvento = this.jtxtDescripcion.getText() + " - Fecha " + fechaCampeonato;
+        
+        dia = this.jtxtDia.getText();
+        mes = this.jtxtMes.getText();
+        year = this.jtxtYear.getText();
+        
+        if (dia.isEmpty() || mes.isEmpty() || year.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese fecha", "Validación",1);
+            this.jtxtDia.requestFocus();
+            return;
+        }
+        
+        fechaStr = dia+"/"+mes+"/"+year;
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        
+        try {
+            fechaEvento = formato.parse(fechaStr);
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Ingrese fecha en el formato dd/mm/aaaa", "Validación",1);
+            this.jtxtDia.requestFocus();
+            return;
+        }
+        
+        hora = this.jcbmHora.getSelectedItem().toString();
+        minuto = this.jcbmMinuto.getSelectedItem().toString();
+        
+        if (hora.isEmpty() || minuto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese hora del evento", "Validación",1);
+            this.jcbmHora.requestFocus();
+            return;
+        }
+        
+        horaEvento = hora+":"+minuto;
+        
+        disponible = this.jchkEstado.isSelected();
+        
+        Evento evento = new Evento(0, nombreEvento, descripcionEvento, fechaEvento, horaEvento, visita, disponible);
+        
+        
+        RegistroEvento re = new RegistroEvento();
+        
+        if (re.agregar(evento)) {
+            JOptionPane.showMessageDialog(this, "Se agregó el evento", "Aviso",1);
+            limpiar();
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "No se agregó el evento", "Aviso",1);
+        }
+    }//GEN-LAST:event_jbtnGuardarActionPerformed
+
+    private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jbtnCancelarActionPerformed
+
+    private void jtxtFechaCampeonatoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtxtFechaCampeonatoFocusGained
+        this.jtxtFechaCampeonato.setText("");
+    }//GEN-LAST:event_jtxtFechaCampeonatoFocusGained
+
+    private void jchkEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jchkEstadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jchkEstadoActionPerformed
+
+    private void jtxtDiaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtxtDiaFocusGained
+        if (this.jtxtDia.getText().equalsIgnoreCase("DIA")) {
+            this.jtxtDia.setText("");
+        }
+    }//GEN-LAST:event_jtxtDiaFocusGained
+
+    private void jtxtMesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtxtMesFocusGained
+        if (this.jtxtMes.getText().equalsIgnoreCase("MES")) {
+            this.jtxtMes.setText("");
+        }
+    }//GEN-LAST:event_jtxtMesFocusGained
+
+    private void jtxtYearFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtxtYearFocusGained
+        if (this.jtxtYear.getText().equalsIgnoreCase("AÑO")) {
+            this.jtxtYear.setText("");
+        }
+    }//GEN-LAST:event_jtxtYearFocusGained
+
+    private void llenarEquipos() {
+        String equipo;
+        int idequipo;
+
+        RegistroEquipo re = new RegistroEquipo();
+        List<Equipo> lista = re.buscarTodos();
+        DefaultComboBoxModel valor = new DefaultComboBoxModel();
+        this.jcmbEquipo.setModel(valor);
+        for (Equipo equipo1 : lista) {
+            equipo = equipo1.getNombreEquipo();
+            idequipo = equipo1.getIdEquipo();
+            //valor.addElement(new Categoria(idcategoria, categoria));
+            valor.addElement(equipo);
+        }
+
+    }
+    
+    public void limpiar(){
+        this.jtxtFechaCampeonato.setText("#");
+        this.jtxtDia.setText("DIA");
+        this.jtxtMes.setText("MES");
+        this.jtxtYear.setText("AÑO");
+        this.jcmbEquipo.setSelectedIndex(0);
+        this.jcbmHora.setSelectedIndex(0);
+        this.jcbmMinuto.setSelectedIndex(0);
+    }
 
     /**
      * @param args the command line arguments
@@ -79,5 +404,26 @@ public class CrearEvento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JButton jbtnCancelar;
+    private javax.swing.JButton jbtnGuardar;
+    private javax.swing.JComboBox<String> jcbmHora;
+    private javax.swing.JComboBox<String> jcbmMinuto;
+    private javax.swing.JCheckBox jchkEstado;
+    private javax.swing.JComboBox<String> jcmbEquipo;
+    private javax.swing.JLabel jlblLocal;
+    private javax.swing.JTextField jtxtDescripcion;
+    private javax.swing.JTextField jtxtDia;
+    private javax.swing.JTextField jtxtFechaCampeonato;
+    private javax.swing.JTextField jtxtMes;
+    private javax.swing.JTextField jtxtYear;
     // End of variables declaration//GEN-END:variables
 }
