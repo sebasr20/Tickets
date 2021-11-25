@@ -27,15 +27,15 @@ public class RegistroCategoria {
             Conexion con = new Conexion();
             Connection cnx = con.obtenerConexion();
 
-            String query = "SELECT nombrecategoria FROM categoria order by idcategoria";
+            String query = "SELECT idcategoria, nombreCategoria FROM categoria order by idcategoria";
             PreparedStatement stmt = cnx.prepareStatement(query);
 
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Categoria categoria = new Categoria();
-                //categoria.setIdcategoria(rs.getInt("idcategoria"));
-                categoria.setNombreCategoria(rs.getString("nombrecategoria"));
+                categoria.setIdcategoria(rs.getInt("idcategoria"));
+                categoria.setNombreCategoria(rs.getString("nombreCategoria"));
 
                 lista.add(categoria);
             }

@@ -21,7 +21,7 @@ public class Conexion {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tickets_duoc?zeroDateTimeBehavior=CONVERT_TO_NULL", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tickets_duoc", "root", "");
             System.out.println("Conexión exitosa");
 
         } catch (ClassNotFoundException | SQLException e) {

@@ -6,8 +6,12 @@
 package vistas;
 
 import controlador.RegistroCategoria;
+import controlador.RegistroCliente;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import modelo.Categoria;
+import modelo.Cliente;
 
 /**
  *
@@ -21,6 +25,14 @@ public class CrearCliente extends javax.swing.JFrame {
     public CrearCliente() {
         initComponents();
         llenarCategoria();
+//        String cat;
+//        RegistroCategoria rc = new RegistroCategoria();
+//        List<Categoria> lista = rc.buscarTodos();
+//        for (Categoria categoria : lista) {
+//            cat = categoria.getNombreCategoria();
+//            this.jComboBox1.addItem(cat);
+//        }
+        
     }
 
     /**
@@ -33,45 +45,199 @@ public class CrearCliente extends javax.swing.JFrame {
     private void initComponents() {
 
         jcmb_categoria = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jtxtRUN = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jtxtNombre = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jtxtAPaterno = new javax.swing.JTextField();
+        jtxtAMaterno = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Registrar Cliente");
+        setResizable(false);
+
+        jcmb_categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
+        jcmb_categoria.setToolTipText("Categoría del Cliente");
+
+        jLabel1.setText("Categoría Cliente");
+
+        jLabel2.setText("RUN");
+
+        jLabel3.setText("Nombre");
+
+        jLabel4.setText("Apellido Paterno");
+
+        jLabel6.setText("Apellido Materno");
+
+        jButton1.setText("Guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(250, Short.MAX_VALUE)
-                .addComponent(jcmb_categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtxtAPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jtxtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                        .addComponent(jtxtRUN)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(35, 186, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton1)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jcmb_categoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jtxtAMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(jcmb_categoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(202, Short.MAX_VALUE))
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jtxtRUN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jtxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jtxtAPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jtxtAMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jcmb_categoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addComponent(jButton1)
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String rutCliente;
+        String nombre;
+        String appaterno;
+        String apmaterno;
+        String categoria;
+        int idcat=0;
+        
+        rutCliente = this.jtxtRUN.getText();
+        if (rutCliente.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese RUN", "Validación",1);
+            this.jtxtRUN.requestFocus();
+            return;
+        }
+        
+        nombre = this.jtxtNombre.getText();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese Nombre", "Validación",1);
+            this.jtxtNombre.requestFocus();
+            return;
+        }
+        
+        appaterno = this.jtxtAPaterno.getText();
+        if (appaterno.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese Apellido Paterno", "Validación",1);
+            this.jtxtAPaterno.requestFocus();
+            return;
+        }
+        
+        apmaterno = this.jtxtAMaterno.getText();
+        if (apmaterno.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese Apellido Materno", "Validación",1);
+            this.jtxtAMaterno.requestFocus();
+            return;
+        }
+        
+        idcat = this.jcmb_categoria.getSelectedIndex();
+        
+        switch (idcat) {
+            case 0:
+                idcat=1;
+                break;
+            case 1:
+                idcat=2;
+                break;
+            case 2:
+                idcat=3;
+                break;
+        }
+        
+        Cliente cliente = new Cliente(rutCliente, nombre, appaterno, apmaterno, idcat);
+        RegistroCliente regcli = new RegistroCliente();
+               
+        if (regcli.agregar(cliente)) {
+            JOptionPane.showMessageDialog(this, "Se agregó el Cliente", "Aviso",1);
+            limpiar();
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "No se agregó el cliente", "Aviso",1);
+        }
+        
+        ///String codCategoria;
+        //codCategoria = this.jcmb_categoria.getItemAt(this.jcmb_categoria.getSelectedIndex());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     private void llenarCategoria() {
 
         String categoria;
+        int idcategoria;
 
         RegistroCategoria rc = new RegistroCategoria();
         List<Categoria> lista = rc.buscarTodos();
-        
+        DefaultComboBoxModel valor = new DefaultComboBoxModel();
+        this.jcmb_categoria.setModel(valor);
         for (Categoria categ : lista) {
             categoria = categ.getNombreCategoria();
-            
-            this.jcmb_categoria.addItem(categoria);
+            idcategoria = categ.getIdcategoria();
+            //valor.addElement(new Categoria(idcategoria, categoria));
+            valor.addElement(categoria);
+            //this.jcmb_categoria.addItem(categoria);
         }
 
     }
-
+    
+    public void limpiar(){
+        this.jtxtRUN.setText("");
+        this.jtxtNombre.setText("");
+        this.jtxtAPaterno.setText("");
+        this.jtxtAMaterno.setText("");
+    }
     /**
      * @param args the command line arguments
      */
@@ -108,6 +274,16 @@ public class CrearCliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JComboBox<String> jcmb_categoria;
+    private javax.swing.JTextField jtxtAMaterno;
+    private javax.swing.JTextField jtxtAPaterno;
+    private javax.swing.JTextField jtxtNombre;
+    private javax.swing.JTextField jtxtRUN;
     // End of variables declaration//GEN-END:variables
 }
