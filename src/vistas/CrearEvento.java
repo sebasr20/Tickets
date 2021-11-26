@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import modelo.Equipo;
 import modelo.Evento;
 
@@ -21,7 +22,7 @@ import modelo.Evento;
  * @author Sebastian
  */
 public class CrearEvento extends javax.swing.JFrame {
-
+        
     /**
      * Creates new form CrearEvento
      */
@@ -64,6 +65,8 @@ public class CrearEvento extends javax.swing.JFrame {
         jcbmHora = new javax.swing.JComboBox<>();
         jcbmMinuto = new javax.swing.JComboBox<>();
         jchkEstado = new javax.swing.JCheckBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtblEventos = new javax.swing.JTable();
 
         jLabel4.setText("/");
 
@@ -145,6 +148,24 @@ public class CrearEvento extends javax.swing.JFrame {
             }
         });
 
+        jtblEventos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Evento", "Detalle", "Fecha", "Hora", "Estado"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jtblEventos);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -199,7 +220,9 @@ public class CrearEvento extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(252, 252, 252)
                         .addComponent(jLabel9)))
-                .addContainerGap(260, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,6 +260,10 @@ public class CrearEvento extends javax.swing.JFrame {
                     .addComponent(jbtnCancelar)
                     .addComponent(jbtnGuardar))
                 .addGap(30, 30, 30))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -304,6 +331,7 @@ public class CrearEvento extends javax.swing.JFrame {
         
         if (re.agregar(evento)) {
             JOptionPane.showMessageDialog(this, "Se agregó el evento", "Aviso",1);
+            
             limpiar();
         }
         else{
@@ -357,7 +385,7 @@ public class CrearEvento extends javax.swing.JFrame {
         }
 
     }
-    
+       
     public void limpiar(){
         this.jtxtFechaCampeonato.setText("#");
         this.jtxtDia.setText("DIA");
@@ -367,6 +395,7 @@ public class CrearEvento extends javax.swing.JFrame {
         this.jcbmHora.setSelectedIndex(0);
         this.jcbmMinuto.setSelectedIndex(0);
     }
+    
 
     /**
      * @param args the command line arguments
@@ -413,6 +442,7 @@ public class CrearEvento extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtnCancelar;
     private javax.swing.JButton jbtnGuardar;
     private javax.swing.JComboBox<String> jcbmHora;
@@ -420,6 +450,7 @@ public class CrearEvento extends javax.swing.JFrame {
     private javax.swing.JCheckBox jchkEstado;
     private javax.swing.JComboBox<String> jcmbEquipo;
     private javax.swing.JLabel jlblLocal;
+    private javax.swing.JTable jtblEventos;
     private javax.swing.JTextField jtxtDescripcion;
     private javax.swing.JTextField jtxtDia;
     private javax.swing.JTextField jtxtFechaCampeonato;

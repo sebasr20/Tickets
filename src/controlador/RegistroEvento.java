@@ -8,8 +8,11 @@ package controlador;
 import bd.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import modelo.Evento;
 
 /**
@@ -45,5 +48,38 @@ public class RegistroEvento {
             System.out.println("Error en SQL al registrar Evento - Clase RegistroEvento " + e.getMessage());
             return false;
         }
+    }
+    
+    public List<Evento> buscarTodos() {
+
+        List<Evento> lista = new ArrayList<>();
+        try {
+            Conexion con = new Conexion();
+            Connection cnx = con.obtenerConexion();
+
+            String query = "SELECT nombreEvento, descripcionEvento, fechaEvento, horaEvento, estadoEvento FROM evento order by idEvento";
+            PreparedStatement stmt = cnx.prepareStatement(query);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Evento evento = new Evento();
+                evento.setNombreEvento(rs.getString("nombreEvento"));
+                evento.setDescripcionEvento(rs.getString("descripcionEvento"));
+                evento.setFechaEvento(rs.getDate("fechEvento"));
+                evento.setHoraEvento(rs.getString("horaEvento"));
+                evento.setDisponible(rs.getBoolean("estadoEvento"));
+                
+                lista.add(evento);
+            }
+            rs.close();
+            stmt.close();
+            cnx.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error SQL "
+                    + "al listar eventos " + e.getMessage());
+        }
+        return lista;
     }
 }
