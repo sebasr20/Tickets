@@ -12,7 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import modelo.Evento;
 
 /**
@@ -57,16 +59,17 @@ public class RegistroEvento {
             Conexion con = new Conexion();
             Connection cnx = con.obtenerConexion();
 
-            String query = "SELECT nombreEvento, descripcionEvento, fechaEvento, horaEvento, estadoEvento FROM evento order by idEvento";
+            String query = "SELECT idEvento, nombreEvento, descripcionEvento, fechaEvento, horaEvento, estadoEvento FROM evento order by fechaEvento DESC";
             PreparedStatement stmt = cnx.prepareStatement(query);
 
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Evento evento = new Evento();
+                evento.setIdEvento(rs.getInt("idEvento"));
                 evento.setNombreEvento(rs.getString("nombreEvento"));
                 evento.setDescripcionEvento(rs.getString("descripcionEvento"));
-                evento.setFechaEvento(rs.getDate("fechEvento"));
+                evento.setFechaEvento(rs.getDate("fechaEvento"));
                 evento.setHoraEvento(rs.getString("horaEvento"));
                 evento.setDisponible(rs.getBoolean("estadoEvento"));
                 
@@ -81,5 +84,38 @@ public class RegistroEvento {
                     + "al listar eventos " + e.getMessage());
         }
         return lista;
+    }
+    
+    public Evento buscarPorId(int idEvento) {
+
+        Evento evento = new Evento();
+        try {
+            Conexion con = new Conexion();
+            Connection cnx = con.obtenerConexion();
+
+            String query = "SELECT idEvento, nombreEvento, descripcionEvento, fechaEvento, horaEvento, estadoEvento FROM evento WHERE idEvento = ?";
+            
+            PreparedStatement stmt = cnx.prepareStatement(query);
+            stmt.setInt(1, idEvento);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                evento.setIdEvento(rs.getInt("idEvento"));
+                evento.setNombreEvento(rs.getString("nombreEvento"));
+                evento.setDescripcionEvento(rs.getString("descripcionEvento"));
+                evento.setFechaEvento(rs.getDate("fechEvento"));
+                evento.setHoraEvento(rs.getString("horaEvento"));
+                evento.setDisponible(rs.getBoolean("estadoEvento"));
+
+            }
+            rs.close();
+            stmt.close();
+            cnx.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error SQL al listar evento por ID " + e.getMessage());
+        }
+        return evento;
     }
 }
