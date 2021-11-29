@@ -6,8 +6,12 @@
 package vistas;
 
 import controlador.RegistroEvento;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import modelo.Evento;
 
@@ -186,14 +190,12 @@ public class ListarEvento extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jlblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jlblId)
-                        .addContainerGap(79, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(35, 35, 35))))
+                        .addComponent(jlblId))
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -233,8 +235,19 @@ public class ListarEvento extends javax.swing.JFrame {
         event = this.jlblEvento.getText();
         descrip = this.jlblDescripcion.getText();
         
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        fec = null;
+        try {
+            fec = formato.parse(this.jlblFecha.getText());
+        } catch (ParseException e) {
+            System.out.println("Error en la fecha " + e.getMessage());
+        }
+        
+        hra = this.jlblHora.getText();
         //Creo un objeto evento para enviar los datos seleccionados para realizar una venta desde la ventana ComprarTicket
-        Evento evento = new Evento(idEvento, "", "", fec, "", 1, true);
+        Evento evento = new Evento(idEvento, event, descrip, fec, hra, 0, true);
+        
+        //Creo el Objeto de la Vista y le paso el evento
         ComprarTicket window = new ComprarTicket(evento);
         window.setVisible(true);
         

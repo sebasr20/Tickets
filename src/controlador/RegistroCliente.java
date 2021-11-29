@@ -79,6 +79,7 @@ public class RegistroCliente {
         }
         return cliente;
     }
+    
 
     public List<Cliente> buscarTodos() {
 
@@ -110,5 +111,56 @@ public class RegistroCliente {
             System.out.println("Error SQL al listar cliente " + e.getMessage());
         }
         return lista;
+    }
+    
+    public boolean actualizar(Cliente cliente) {
+
+        try {
+
+            Conexion con = new Conexion();
+            Connection cnx = con.obtenerConexion();
+
+            String query = "UPDATE cliente set nombre = ?,appaterno=?,apmaterno =?,idCategoria=? WHERE rutCliente =?";
+            PreparedStatement stmt = cnx.prepareStatement(query);
+            stmt.setString(1, cliente.getNombre());
+            stmt.setString(2, cliente.getAppaterno());
+            stmt.setString(3, cliente.getApmaterno());
+            stmt.setInt(4, cliente.getCategoria());
+            stmt.setString(5, cliente.getRutCliente());
+           
+            stmt.executeUpdate();
+            stmt.close();
+            cnx.close();
+            
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Error en SQL al actualizar cliente - Clase RegistroCliente " + e.getMessage());
+            return false;
+        }
+
+    }
+    
+    public boolean eliminarPorRun(String run) {
+
+        try {
+
+            Conexion con = new Conexion();
+            Connection cnx = con.obtenerConexion();
+
+            String query = "DELETE FROM cliente WHERE rutCliente=?";
+            PreparedStatement stmt = cnx.prepareStatement(query);
+            stmt.setString(1, run);
+
+            stmt.executeUpdate();
+            stmt.close();
+            cnx.close();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Error en SQL al eliminar cliente - Clase RegistroCliente" + e.getMessage());
+            return false;
+        }
     }
 }
