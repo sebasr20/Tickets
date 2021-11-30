@@ -13,8 +13,9 @@ import java.util.Date;
  */
 public class Evento {
     private int idEvento;
-    private String nombreEvento;
+    private String equipoLocal;
     private String descripcionEvento;
+    private int jornadaEvento;
     private Date fechaEvento;
     private String horaEvento;
     private int visita;
@@ -23,10 +24,11 @@ public class Evento {
     public Evento() {
     }
 
-    public Evento(int idEvento, String nombreEvento, String descripcionEvento, Date fechaEvento, String horaEvento, int visita, boolean disponible) {
+    public Evento(int idEvento, String equipoLocal, String descripcionEvento, int jornadaEvento, Date fechaEvento, String horaEvento, int visita, boolean disponible) {
         this.idEvento = idEvento;
-        this.nombreEvento = nombreEvento;
+        this.equipoLocal = equipoLocal;
         this.descripcionEvento = descripcionEvento;
+        this.jornadaEvento = jornadaEvento;
         this.fechaEvento = fechaEvento;
         this.horaEvento = horaEvento;
         this.visita = visita;
@@ -41,12 +43,12 @@ public class Evento {
         this.idEvento = idEvento;
     }
 
-    public String getNombreEvento() {
-        return nombreEvento;
+    public String getEquipoLocal() {
+        return equipoLocal;
     }
 
-    public void setNombreEvento(String nombreEvento) {
-        this.nombreEvento = nombreEvento;
+    public void setEquipoLocal(String equipoLocal) {
+        this.equipoLocal = equipoLocal;
     }
 
     public String getDescripcionEvento() {
@@ -55,6 +57,14 @@ public class Evento {
 
     public void setDescripcionEvento(String descripcionEvento) {
         this.descripcionEvento = descripcionEvento;
+    }
+
+    public int getJornadaEvento() {
+        return jornadaEvento;
+    }
+
+    public void setJornadaEvento(int jornadaEvento) {
+        this.jornadaEvento = jornadaEvento;
     }
 
     public Date getFechaEvento() {
@@ -88,6 +98,8 @@ public class Evento {
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
+
+    
 
     
 

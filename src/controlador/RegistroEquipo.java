@@ -56,7 +56,7 @@ public class RegistroEquipo {
             Conexion con = new Conexion();
             Connection cnx = con.obtenerConexion();
 
-            String query = "SELECT idCategoria,nombreCategoria FROM categoria WHERE idCategoria = ?";
+            String query = "SELECT idEquipo,nombreEquipo FROM equipo WHERE idEquipo = ?";
             
             PreparedStatement stmt = cnx.prepareStatement(query);
             stmt.setInt(1, idEquipo);

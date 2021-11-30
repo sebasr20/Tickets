@@ -31,14 +31,15 @@ public class RegistroEvento {
 
             date = evento.getFechaEvento();
 
-            String query = "INSERT INTO evento(nombreEvento,descripcionEvento,fechaEvento,horaEvento,estadoEvento,idVisita)VALUES(?,?,?,?,?,?)";
+            String query = "INSERT INTO evento(equipoLocal,descripcionEvento,jornadaEvento,fechaEvento,horaEvento,estadoEvento,idVisita)VALUES(?,?,?,?,?,?,?)";
             PreparedStatement stmt = cnx.prepareStatement(query);
-            stmt.setString(1, evento.getNombreEvento());
+            stmt.setString(1, evento.getEquipoLocal());
             stmt.setString(2, evento.getDescripcionEvento());
-            stmt.setDate(3, new java.sql.Date(date.getTime()));
-            stmt.setString(4, evento.getHoraEvento());
-            stmt.setBoolean(5, evento.isDisponible());
-            stmt.setInt(6, evento.getVisita());
+            stmt.setInt(3, evento.getJornadaEvento());
+            stmt.setDate(4, new java.sql.Date(date.getTime()));
+            stmt.setString(5, evento.getHoraEvento());
+            stmt.setBoolean(6, evento.isDisponible());
+            stmt.setInt(7, evento.getVisita());
 
             stmt.executeUpdate();
             stmt.close();
@@ -59,7 +60,7 @@ public class RegistroEvento {
             Conexion con = new Conexion();
             Connection cnx = con.obtenerConexion();
 
-            String query = "SELECT idEvento, nombreEvento, descripcionEvento, fechaEvento, horaEvento, estadoEvento FROM evento order by fechaEvento DESC";
+            String query = "SELECT idEvento, equipoLocal,descripcionEvento,jornadaEvento,fechaEvento,horaEvento,estadoEvento,idVisita FROM evento order by fechaEvento DESC";
             PreparedStatement stmt = cnx.prepareStatement(query);
 
             ResultSet rs = stmt.executeQuery();
@@ -67,11 +68,13 @@ public class RegistroEvento {
             while (rs.next()) {
                 Evento evento = new Evento();
                 evento.setIdEvento(rs.getInt("idEvento"));
-                evento.setNombreEvento(rs.getString("nombreEvento"));
+                evento.setEquipoLocal(rs.getString("equipoLocal"));
                 evento.setDescripcionEvento(rs.getString("descripcionEvento"));
+                evento.setJornadaEvento(rs.getInt("jornadaEvento"));
                 evento.setFechaEvento(rs.getDate("fechaEvento"));
                 evento.setHoraEvento(rs.getString("horaEvento"));
                 evento.setDisponible(rs.getBoolean("estadoEvento"));
+                evento.setVisita(rs.getInt("idVisita"));
                 
                 lista.add(evento);
             }
@@ -93,7 +96,7 @@ public class RegistroEvento {
             Conexion con = new Conexion();
             Connection cnx = con.obtenerConexion();
 
-            String query = "SELECT idEvento, nombreEvento, descripcionEvento, fechaEvento, horaEvento, estadoEvento FROM evento WHERE idEvento = ?";
+            String query = "SELECT idEvento,equipoLocal,descripcionEvento,jornadaEvento,fechaEvento,horaEvento,estadoEvento,idVisita FROM evento WHERE idEvento = ?";
             
             PreparedStatement stmt = cnx.prepareStatement(query);
             stmt.setInt(1, idEvento);
@@ -102,11 +105,13 @@ public class RegistroEvento {
 
             if (rs.next()) {
                 evento.setIdEvento(rs.getInt("idEvento"));
-                evento.setNombreEvento(rs.getString("nombreEvento"));
+                evento.setEquipoLocal(rs.getString("equipoLocal"));
                 evento.setDescripcionEvento(rs.getString("descripcionEvento"));
-                evento.setFechaEvento(rs.getDate("fechEvento"));
+                evento.setJornadaEvento(rs.getInt("jornadaEvento"));
+                evento.setFechaEvento(rs.getDate("fechaEvento"));
                 evento.setHoraEvento(rs.getString("horaEvento"));
                 evento.setDisponible(rs.getBoolean("estadoEvento"));
+                evento.setVisita(rs.getInt("idVisita"));
 
             }
             rs.close();
@@ -117,5 +122,59 @@ public class RegistroEvento {
             System.out.println("Error SQL al listar evento por ID " + e.getMessage());
         }
         return evento;
+    }
+    
+    public boolean actualizar(Evento evento) {
+        Date date;
+        try {
+
+            Conexion con = new Conexion();
+            Connection cnx = con.obtenerConexion();
+            
+            date = evento.getFechaEvento();
+            
+            String query = "UPDATE evento set jornadaEvento = ?,fechaEvento=?,horaEvento =?,estadoEvento=?,idVisita=? WHERE idEvento =?";
+            PreparedStatement stmt = cnx.prepareStatement(query);
+            stmt.setInt(1, evento.getJornadaEvento());
+            stmt.setDate(2, new java.sql.Date(date.getTime()));
+            stmt.setString(3, evento.getHoraEvento());
+            stmt.setBoolean(4, evento.isDisponible());
+            stmt.setInt(5, evento.getVisita());
+            stmt.setInt(6, evento.getIdEvento());
+           
+            stmt.executeUpdate();
+            stmt.close();
+            cnx.close();
+            
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Error en SQL al actualizar evento - Clase RegistroEvento " + e.getMessage());
+            return false;
+        }
+
+    }
+    
+    public boolean eliminarPorId(int idEvento) {
+
+        try {
+
+            Conexion con = new Conexion();
+            Connection cnx = con.obtenerConexion();
+
+            String query = "DELETE FROM evento WHERE idEvento=?";
+            PreparedStatement stmt = cnx.prepareStatement(query);
+            stmt.setInt(1, idEvento);
+
+            stmt.executeUpdate();
+            stmt.close();
+            cnx.close();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Error en SQL al eliminar evento - Clase RegistroEvento" + e.getMessage());
+            return false;
+        }
     }
 }

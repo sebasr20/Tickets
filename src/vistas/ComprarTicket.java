@@ -26,7 +26,7 @@ public class ComprarTicket extends javax.swing.JFrame {
         initComponents();
         imgSectores();
         this.evento = evento;
-        this.jLabel6.setText(evento.getNombreEvento());
+        this.jLabel6.setText(evento.getEquipoLocal());
     }
     
     public void imgSectores(){

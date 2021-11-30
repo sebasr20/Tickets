@@ -5,32 +5,28 @@
  */
 package vistas;
 
-import controlador.RegistroEquipo;
 import controlador.RegistroEvento;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modelo.Equipo;
 import modelo.Evento;
 
 /**
  *
  * @author Sebastian
  */
-public class ListarEvento extends javax.swing.JFrame {
+public class EliminarEvento extends javax.swing.JFrame {
 
-    private int idEvento, jornada, idVisita;
-    private String equipoLocal, descripcionEvento, horaEvento, nomVisita;
+    private int idEvento, idSeleccionado;   
+    private String nombreEvento, descripcionEvento, horaEvento;
     private Date fechaEvento;
     private boolean disponible;
 
     /**
      * Creates new form ListarEvento
      */
-    public ListarEvento() {
+    public EliminarEvento() {
         initComponents();
         cargarTabla();
     }
@@ -48,7 +44,7 @@ public class ListarEvento extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jtxtBuscar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jbtnVender = new javax.swing.JButton();
+        jbtnEliminar = new javax.swing.JButton();
         jbtnBuscar = new javax.swing.JButton();
         jbtnCancelar = new javax.swing.JButton();
         jlblHora = new javax.swing.JLabel();
@@ -72,13 +68,13 @@ public class ListarEvento extends javax.swing.JFrame {
 
         jLabel2.setText("BUSCAR EVENTO");
 
-        jbtnVender.setBackground(new java.awt.Color(0, 102, 255));
-        jbtnVender.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        jbtnVender.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnVender.setText("Vender Ticket");
-        jbtnVender.addActionListener(new java.awt.event.ActionListener() {
+        jbtnEliminar.setBackground(new java.awt.Color(0, 102, 255));
+        jbtnEliminar.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        jbtnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnEliminar.setText("Eliminar");
+        jbtnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnVenderActionPerformed(evt);
+                jbtnEliminarActionPerformed(evt);
             }
         });
 
@@ -109,7 +105,7 @@ public class ListarEvento extends javax.swing.JFrame {
         });
 
         jLabel6.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        jLabel6.setText("Listar Eventos Programados");
+        jLabel6.setText("Eliminar Evento Programado");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Eventos Programados"));
 
@@ -119,7 +115,7 @@ public class ListarEvento extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Visita", "Jornada", "Fecha", "Hora", "Estado"
+                "ID", "Evento", "Descripción", "Fecha", "Hora", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -187,7 +183,7 @@ public class ListarEvento extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jbtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jbtnVender, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jbtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 14, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -212,19 +208,17 @@ public class ListarEvento extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jlblEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jbtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jbtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jbtnVender, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jlblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jlblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -234,38 +228,24 @@ public class ListarEvento extends javax.swing.JFrame {
         cargarTabla();
     }//GEN-LAST:event_jbtnBuscarActionPerformed
 
-    private void jbtnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnVenderActionPerformed
+    private void jbtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEliminarActionPerformed
 
-        equipoLocal = this.jlblEvento.getText();
-        descripcionEvento = this.jlblDescripcion.getText();
+        RegistroEvento regev = new RegistroEvento();
 
-        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-        fechaEvento = null;
-        try {
-            fechaEvento = formato.parse(this.jlblFecha.getText());
-        } catch (ParseException e) {
-            System.out.println("Error en la fecha " + e.getMessage());
+        int opcion = JOptionPane.showConfirmDialog(this, "Seguro que deseas eliminar?", "Eliminar", 0);
+
+        if (opcion == 0) {
+            regev.eliminarPorId(idSeleccionado);
+            JOptionPane.showMessageDialog(this, "Evento eliminado", "Eliminar", 1);
+            limpiar();
+            idEvento=0;
+            cargarTabla();
+            this.jtxtBuscar.requestFocus();
+        } else {
+            JOptionPane.showMessageDialog(this, "Cliente No eliminado", "Eliminar", 2);
         }
 
-        horaEvento = this.jlblHora.getText();
-        //Creo un objeto evento para enviar los datos seleccionados para realizar una venta desde la ventana ComprarTicket
-        //Evento evento = new Evento(idEvento, equipoLocal, descripcionEvento, fechaEvento, horaEvento, 0, true);
-        Evento evento = new Evento(idEvento, "", "", 0, fechaEvento, horaEvento, 0, true);
-
-        //Creo el Objeto de la Vista y le paso el evento
-        ComprarTicket window = new ComprarTicket(evento);
-        window.setVisible(true);
-
-    }//GEN-LAST:event_jbtnVenderActionPerformed
-
-   private String consultarEquipo(int idVisita) {
-        String equipoVisita;
-        RegistroEquipo re = new RegistroEquipo();
-        Equipo equipo = re.buscarPorId(idVisita);
-        equipoVisita = equipo.getNombreEquipo();
-
-        return equipoVisita;
-    }
+    }//GEN-LAST:event_jbtnEliminarActionPerformed
 
     private void jtblListarEventosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblListarEventosMouseClicked
 
@@ -273,11 +253,8 @@ public class ListarEvento extends javax.swing.JFrame {
         int seleccionar = this.jtblListarEventos.rowAtPoint(evt.getPoint());
 
         //lleno los lbl con los datos obtenidos de cada columna de la fila
-        idEvento = Integer.parseInt(String.valueOf(this.jtblListarEventos.getValueAt(seleccionar, 0)));
-        this.jlblEvento.setText(equipoLocal + " vs " + String.valueOf(this.jtblListarEventos.getValueAt(seleccionar, 1)));
-        this.jlblDescripcion.setText(descripcionEvento + " | JORNADA: "+ jornada);
-        this.jlblFecha.setText(String.valueOf(this.jtblListarEventos.getValueAt(seleccionar, 3)));
-        this.jlblHora.setText(String.valueOf(this.jtblListarEventos.getValueAt(seleccionar, 4)));
+        idSeleccionado = Integer.parseInt(String.valueOf(this.jtblListarEventos.getValueAt(seleccionar, 0)));
+        this.jbtnEliminar.setEnabled(true);
     }//GEN-LAST:event_jtblListarEventosMouseClicked
 
     private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
@@ -308,35 +285,25 @@ public class ListarEvento extends javax.swing.JFrame {
 
             for (Evento evento : lista) {
                 idEvento = evento.getIdEvento();
-                equipoLocal = evento.getEquipoLocal();
+                nombreEvento = evento.getEquipoLocal();
                 descripcionEvento = evento.getDescripcionEvento();
-                idVisita = evento.getVisita();
-                
-                nomVisita = this.consultarEquipo(idVisita);
-                
-                jornada = evento.getJornadaEvento();
                 fechaEvento = evento.getFechaEvento();
                 horaEvento = evento.getHoraEvento();
                 disponible = evento.isDisponible();
 
-                modelo.addRow(new Object[]{idEvento, nomVisita, jornada, fechaEvento, horaEvento, disponible});
+                modelo.addRow(new Object[]{idEvento, nombreEvento, descripcionEvento, fechaEvento, horaEvento, disponible});
             }
         } else { //listar por id
 
             Evento evento = regev.buscarPorId(idEvento);
             idEvento = evento.getIdEvento();
-            equipoLocal = evento.getEquipoLocal();
-            descripcionEvento = evento.getDescripcionEvento();
-            idVisita = evento.getVisita();
+                nombreEvento = evento.getEquipoLocal();
+                descripcionEvento = evento.getDescripcionEvento();
+                fechaEvento = evento.getFechaEvento();
+                horaEvento = evento.getHoraEvento();
+                disponible = evento.isDisponible();
             
-            nomVisita = this.consultarEquipo(idVisita);
-            
-            jornada = evento.getJornadaEvento();
-            fechaEvento = evento.getFechaEvento();
-            horaEvento = evento.getHoraEvento();
-            disponible = evento.isDisponible();
-
-            modelo.addRow(new Object[]{idEvento, nomVisita, jornada, fechaEvento, horaEvento, disponible});
+            modelo.addRow(new Object[]{idEvento, nombreEvento, descripcionEvento, fechaEvento, horaEvento, disponible});
         }
 
     }
@@ -379,7 +346,7 @@ public class ListarEvento extends javax.swing.JFrame {
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new ListarEvento().setVisible(true);
+//                new EliminarEvento().setVisible(true);
 //            }
 //        });
 //    }
@@ -393,8 +360,8 @@ public class ListarEvento extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtnBuscar;
     private javax.swing.JButton jbtnCancelar;
+    private javax.swing.JButton jbtnEliminar;
     private javax.swing.JButton jbtnLimpiar;
-    private javax.swing.JButton jbtnVender;
     private javax.swing.JLabel jlblDescripcion;
     private javax.swing.JLabel jlblEvento;
     private javax.swing.JLabel jlblFecha;
