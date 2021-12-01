@@ -5,11 +5,13 @@
  */
 package vistas;
 
+import controlador.RegistroEquipo;
 import controlador.RegistroEvento;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.Equipo;
 import modelo.Evento;
 
 /**
@@ -18,8 +20,8 @@ import modelo.Evento;
  */
 public class EliminarEvento extends javax.swing.JFrame {
 
-    private int idEvento, idSeleccionado;   
-    private String nombreEvento, descripcionEvento, horaEvento;
+    private int idEvento, idSeleccionado,jornada, idVisita;   
+    private String equipoLocal, descripcionEvento, horaEvento, nomVisita;
     private Date fechaEvento;
     private boolean disponible;
 
@@ -72,6 +74,7 @@ public class EliminarEvento extends javax.swing.JFrame {
         jbtnEliminar.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jbtnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         jbtnEliminar.setText("Eliminar");
+        jbtnEliminar.setEnabled(false);
         jbtnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnEliminarActionPerformed(evt);
@@ -115,7 +118,7 @@ public class EliminarEvento extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Evento", "Descripción", "Fecha", "Hora", "Estado"
+                "ID", "Visita", "Jornada", "Fecha", "Hora", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -222,6 +225,7 @@ public class EliminarEvento extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBuscarActionPerformed
@@ -241,6 +245,7 @@ public class EliminarEvento extends javax.swing.JFrame {
             idEvento=0;
             cargarTabla();
             this.jtxtBuscar.requestFocus();
+            this.jbtnEliminar.setEnabled(false);
         } else {
             JOptionPane.showMessageDialog(this, "Cliente No eliminado", "Eliminar", 2);
         }
@@ -268,6 +273,46 @@ public class EliminarEvento extends javax.swing.JFrame {
         this.jtxtBuscar.requestFocus();
     }//GEN-LAST:event_jbtnLimpiarActionPerformed
 
+//    public void cargarTabla() {
+//        RegistroEvento regev = new RegistroEvento();
+//        DefaultTableModel modelo = (DefaultTableModel) this.jtblListarEventos.getModel();
+//
+//        try {
+//            idEvento = Integer.parseInt(this.jtxtBuscar.getText());
+//        } catch (NumberFormatException e) {
+//            idEvento = 0;
+//        }
+//
+//        modelo.setRowCount(0);
+//
+//        if (idEvento == 0) {//listar todos
+//            List<Evento> lista = regev.buscarTodos();
+//
+//            for (Evento evento : lista) {
+//                idEvento = evento.getIdEvento();
+//                nombreEvento = evento.getEquipoLocal();
+//                descripcionEvento = evento.getDescripcionEvento();
+//                fechaEvento = evento.getFechaEvento();
+//                horaEvento = evento.getHoraEvento();
+//                disponible = evento.isDisponible();
+//
+//                modelo.addRow(new Object[]{idEvento, nombreEvento, descripcionEvento, fechaEvento, horaEvento, disponible});
+//            }
+//        } else { //listar por id
+//
+//            Evento evento = regev.buscarPorId(idEvento);
+//            idEvento = evento.getIdEvento();
+//                nombreEvento = evento.getEquipoLocal();
+//                descripcionEvento = evento.getDescripcionEvento();
+//                fechaEvento = evento.getFechaEvento();
+//                horaEvento = evento.getHoraEvento();
+//                disponible = evento.isDisponible();
+//            
+//            modelo.addRow(new Object[]{idEvento, nombreEvento, descripcionEvento, fechaEvento, horaEvento, disponible});
+//        }
+//
+//    }
+    
     public void cargarTabla() {
         RegistroEvento regev = new RegistroEvento();
         DefaultTableModel modelo = (DefaultTableModel) this.jtblListarEventos.getModel();
@@ -285,29 +330,48 @@ public class EliminarEvento extends javax.swing.JFrame {
 
             for (Evento evento : lista) {
                 idEvento = evento.getIdEvento();
-                nombreEvento = evento.getEquipoLocal();
+                equipoLocal = evento.getEquipoLocal();
                 descripcionEvento = evento.getDescripcionEvento();
+                idVisita = evento.getVisita();
+                
+                nomVisita = this.consultarEquipo(idVisita);
+                
+                jornada = evento.getJornadaEvento();
                 fechaEvento = evento.getFechaEvento();
                 horaEvento = evento.getHoraEvento();
                 disponible = evento.isDisponible();
 
-                modelo.addRow(new Object[]{idEvento, nombreEvento, descripcionEvento, fechaEvento, horaEvento, disponible});
+                modelo.addRow(new Object[]{idEvento, nomVisita, jornada, fechaEvento, horaEvento, disponible});
             }
         } else { //listar por id
 
             Evento evento = regev.buscarPorId(idEvento);
             idEvento = evento.getIdEvento();
-                nombreEvento = evento.getEquipoLocal();
-                descripcionEvento = evento.getDescripcionEvento();
-                fechaEvento = evento.getFechaEvento();
-                horaEvento = evento.getHoraEvento();
-                disponible = evento.isDisponible();
+            equipoLocal = evento.getEquipoLocal();
+            descripcionEvento = evento.getDescripcionEvento();
+            idVisita = evento.getVisita();
             
-            modelo.addRow(new Object[]{idEvento, nombreEvento, descripcionEvento, fechaEvento, horaEvento, disponible});
+            nomVisita = this.consultarEquipo(idVisita);
+            
+            jornada = evento.getJornadaEvento();
+            fechaEvento = evento.getFechaEvento();
+            horaEvento = evento.getHoraEvento();
+            disponible = evento.isDisponible();
+
+            modelo.addRow(new Object[]{idEvento, nomVisita, jornada, fechaEvento, horaEvento, disponible});
         }
 
     }
+    
+    private String consultarEquipo(int idVisita) {
+        String equipoVisita;
+        RegistroEquipo re = new RegistroEquipo();
+        Equipo equipo = re.buscarPorId(idVisita);
+        equipoVisita = equipo.getNombreEquipo();
 
+        return equipoVisita;
+    }
+    
     public void limpiar() {
         this.jtxtBuscar.setText("");
         this.jlblEvento.setText("");
