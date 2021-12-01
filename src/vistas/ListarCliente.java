@@ -48,9 +48,6 @@ public class ListarCliente extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listar Clientes");
 
-        jbtnCancelar.setBackground(new java.awt.Color(204, 0, 0));
-        jbtnCancelar.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        jbtnCancelar.setForeground(new java.awt.Color(255, 255, 255));
         jbtnCancelar.setText("Cancelar");
         jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,9 +98,6 @@ public class ListarCliente extends javax.swing.JFrame {
             }
         });
 
-        jbtnLimpiar.setBackground(new java.awt.Color(102, 102, 102));
-        jbtnLimpiar.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        jbtnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         jbtnLimpiar.setText("Limpiar");
         jbtnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

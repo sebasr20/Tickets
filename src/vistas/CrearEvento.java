@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -21,7 +21,7 @@ import modelo.Evento;
  * @author Sebastian
  */
 public class CrearEvento extends javax.swing.JFrame {
-        
+
     /**
      * Creates new form CrearEvento
      */
@@ -30,9 +30,7 @@ public class CrearEvento extends javax.swing.JFrame {
         llenarEquipos();
         desactivarTextBox();
         this.jbtnCancelar.requestFocus();
-        
-        
-        
+
     }
 
     /**
@@ -278,9 +276,9 @@ public class CrearEvento extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarActionPerformed
-        String equipoLocal,descripcionEvento,dia,mes,year,fechaStr,hora,minuto;
+        String equipoLocal, descripcionEvento, dia, mes, year, fechaStr, hora, minuto;
         int jornada;
-        Date fechaEvento;
+        Date fechaEvento = null;
         String horaEvento;
         int visita;
         boolean disponible;
@@ -288,64 +286,68 @@ public class CrearEvento extends javax.swing.JFrame {
         //nombreEvento = this.jtxtLocal.getText() + " vs " + this.jcmbEquipo.getSelectedItem();
         equipoLocal = this.jtxtLocal.getText();
         visita = this.jcmbEquipo.getSelectedIndex() + 1;
-        
-        //Fecha del Campeonato EJ. Fecha 33
 
+        //Fecha del Campeonato EJ. Fecha 33
         try {
             jornada = Integer.parseInt(this.jtxtFechaCampeonato.getText());
+            if (jornada > 35 || jornada <= 0) {
+                JOptionPane.showMessageDialog(this, "Las Fechas del Campeonato no pueden ser menor a 0 o superior a 36", "Información", 1);
+                this.jtxtFechaCampeonato.requestFocus();
+            }
         } catch (NumberFormatException e) {
             jornada = 0;
+            JOptionPane.showMessageDialog(this, "Ingrese una jornada de campeonato", "Información", 1);
+            this.jtxtFechaCampeonato.requestFocus();
         }
-        
-        
+
         descripcionEvento = this.jtxtDescripcion.getText();
-        
+
         dia = this.jtxtDia.getText();
         mes = this.jtxtMes.getText();
         year = this.jtxtYear.getText();
-        
+
         if (dia.isEmpty() || mes.isEmpty() || year.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese fecha", "Validación",1);
+            JOptionPane.showMessageDialog(this, "Ingrese fecha", "Validación", 1);
             this.jtxtDia.requestFocus();
             return;
+        } else {
+            fechaStr = dia + "/" + mes + "/" + year;
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+            try {
+                fechaEvento = formato.parse(fechaStr);
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(this, "Ingrese fecha en el formato dd/mm/aaaa", "Validación", 1);
+                this.jtxtDia.requestFocus();
+                return;
+            }
+
         }
-        
-        fechaStr = dia+"/"+mes+"/"+year;
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        
-        try {
-            fechaEvento = formato.parse(fechaStr);
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Ingrese fecha en el formato dd/mm/aaaa", "Validación",1);
-            this.jtxtDia.requestFocus();
-            return;
-        }
-        
+
         hora = this.jcbmHora.getSelectedItem().toString();
         minuto = this.jcbmMinuto.getSelectedItem().toString();
-        
+
         if (hora.isEmpty() || minuto.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese hora del evento", "Validación",1);
+            JOptionPane.showMessageDialog(this, "Ingrese hora del evento", "Validación", 1);
             this.jcbmHora.requestFocus();
             return;
         }
-        
-        horaEvento = hora+":"+minuto;
-        
+
+        horaEvento = hora + ":" + minuto;
+
         disponible = this.jchkEstado.isSelected();
-        
+
         //Evento evento = new Evento(0, nombreEvento, descripcionEvento, fechaEvento, horaEvento, visita, disponible);
         Evento evento = new Evento(0, equipoLocal, descripcionEvento, jornada, fechaEvento, horaEvento, visita, disponible);
-        
+
         RegistroEvento re = new RegistroEvento();
-        
+
         if (re.agregar(evento)) {
-            JOptionPane.showMessageDialog(this, "Se agregó el evento", "Aviso",1);
-            
+            JOptionPane.showMessageDialog(this, "Se agregó el evento", "Aviso", 1);
+
             limpiar();
-        }
-        else{
-            JOptionPane.showMessageDialog(this, "No se agregó el evento", "Aviso",1);
+        } else {
+            JOptionPane.showMessageDialog(this, "No se agregó el evento", "Aviso", 1);
         }
     }//GEN-LAST:event_jbtnGuardarActionPerformed
 
@@ -399,8 +401,8 @@ public class CrearEvento extends javax.swing.JFrame {
         }
 
     }
-       
-    public void limpiar(){
+
+    public void limpiar() {
 
         this.jtxtFechaCampeonato.setText("#");
         this.jtxtDia.setText("DIA");
@@ -411,8 +413,8 @@ public class CrearEvento extends javax.swing.JFrame {
         this.jcbmHora.setSelectedIndex(0);
         this.jcbmMinuto.setSelectedIndex(0);
     }
-    
-    private void desactivarTextBox(){
+
+    private void desactivarTextBox() {
         this.jtxtLocal.setEditable(false);
         this.jtxtDescripcion.setEditable(false);
 

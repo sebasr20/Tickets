@@ -5,92 +5,112 @@
  */
 package vistas;
 
+import controlador.RegistroCategoria;
+import controlador.RegistroCliente;
+import controlador.RegistroEquipo;
+import controlador.RegistroEstadio;
+import controlador.RegistroEvento;
+import controlador.RegistroUbicacion;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import modelo.Categoria;
+import modelo.Cliente;
+import modelo.Equipo;
+import modelo.Estadio;
 import modelo.Evento;
+import modelo.Ticket;
+import modelo.UbicacionEstadio;
+
 
 /**
  *
  * @author Sebastian
  */
 public class ComprarTicket extends javax.swing.JFrame {
+
     //creo una variable de Evento para guardar los datos provenientes desde la otra ventana
-    private Evento evento;
+    private final Evento evento;
+    private int idEvento;
+    private int idEstadio, idSector;
+    private String rutCliente, nomEstadio;
+
+    ;
+
     /**
      * Creates new form ComprarTicket
      */
-    
-    //obtengo el objeto proveniente desde ListarEvento
+    //public ComprarTicket() {
     public ComprarTicket(final Evento evento) {
         initComponents();
         imgSectores();
         this.evento = evento;
-        this.jLabel6.setText(evento.getEquipoLocal());
+        idEvento = evento.getIdEvento();
+        consultarEstadio(1);
+        consultarEvento();
     }
-    
-    public void imgSectores(){
+
+    public void imgSectores() {
         ImageIcon estadio = new ImageIcon(getClass().getResource("/Imagenes/sectores.png"));
-        Icon estadioIcono =   new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
+        Icon estadioIcono = new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
         this.jlblImagen.setIcon(estadioIcono);
     }
-    
-    public void imgRapanui(){
+
+    public void imgRapanui() {
         ImageIcon estadio = new ImageIcon(getClass().getResource("/Imagenes/sector_rapanui.png"));
-        Icon estadioIcono =   new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
-        this.jlblImagen.setIcon(estadioIcono);  
+        Icon estadioIcono = new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
+        this.jlblImagen.setIcon(estadioIcono);
     }
-    
-    public void imgOceano(){
+
+    public void imgOceano() {
         ImageIcon estadio = new ImageIcon(getClass().getResource("/Imagenes/sector_oceano.png"));
-        Icon estadioIcono =   new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
-        this.jlblImagen.setIcon(estadioIcono);  
+        Icon estadioIcono = new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
+        this.jlblImagen.setIcon(estadioIcono);
     }
-    
-    public void imgCordillera(){
+
+    public void imgCordillera() {
         ImageIcon estadio = new ImageIcon(getClass().getResource("/Imagenes/sector_cordillera.png"));
-        Icon estadioIcono =   new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
-        this.jlblImagen.setIcon(estadioIcono);  
+        Icon estadioIcono = new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
+        this.jlblImagen.setIcon(estadioIcono);
     }
-    
-    public void imgLautaro(){
+
+    public void imgLautaro() {
         ImageIcon estadio = new ImageIcon(getClass().getResource("/Imagenes/sector_lautaro.png"));
-        Icon estadioIcono =   new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
-        this.jlblImagen.setIcon(estadioIcono);  
+        Icon estadioIcono = new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
+        this.jlblImagen.setIcon(estadioIcono);
     }
-    
-    public void imgCaupolican(){
+
+    public void imgCaupolican() {
         ImageIcon estadio = new ImageIcon(getClass().getResource("/Imagenes/sector_caupolican.png"));
-        Icon estadioIcono =   new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
-        this.jlblImagen.setIcon(estadioIcono);  
+        Icon estadioIcono = new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
+        this.jlblImagen.setIcon(estadioIcono);
     }
-    
-    public void imgGalvarino(){
+
+    public void imgGalvarino() {
         ImageIcon estadio = new ImageIcon(getClass().getResource("/Imagenes/sector_galvarino.png"));
-        Icon estadioIcono =   new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
-        this.jlblImagen.setIcon(estadioIcono);  
+        Icon estadioIcono = new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
+        this.jlblImagen.setIcon(estadioIcono);
     }
-    
-    public void imgTucalpel(){
+
+    public void imgTucalpel() {
         ImageIcon estadio = new ImageIcon(getClass().getResource("/Imagenes/sector_tucapel.png"));
-        Icon estadioIcono =   new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
-        this.jlblImagen.setIcon(estadioIcono);  
+        Icon estadioIcono = new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
+        this.jlblImagen.setIcon(estadioIcono);
     }
-    
-    public void imgArica(){
+
+    public void imgArica() {
         ImageIcon estadio = new ImageIcon(getClass().getResource("/Imagenes/sector_arica.png"));
-        Icon estadioIcono =   new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
-        this.jlblImagen.setIcon(estadioIcono);  
+        Icon estadioIcono = new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
+        this.jlblImagen.setIcon(estadioIcono);
     }
-    
-    public void imgMagallanes(){
+
+    public void imgMagallanes() {
         ImageIcon estadio = new ImageIcon(getClass().getResource("/Imagenes/sector_magallanes.png"));
-        Icon estadioIcono =   new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
-        this.jlblImagen.setIcon(estadioIcono);  
+        Icon estadioIcono = new ImageIcon(estadio.getImage().getScaledInstance(this.jlblImagen.getWidth(), this.jlblImagen.getHeight(), Image.SCALE_SMOOTH));
+        this.jlblImagen.setIcon(estadioIcono);
     }
-    
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -101,9 +121,9 @@ public class ComprarTicket extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jPanel1 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
         jlblImagen = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        jlblestadio = new javax.swing.JLabel();
         jrbtRapanui = new javax.swing.JRadioButton();
         jrbtCordillera = new javax.swing.JRadioButton();
         jrbtOceano = new javax.swing.JRadioButton();
@@ -125,34 +145,38 @@ public class ComprarTicket extends javax.swing.JFrame {
         jlblPrecioArica = new javax.swing.JLabel();
         jlblPrecioMagallanes = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        jlblLocalVisita = new javax.swing.JLabel();
+        jlblDescripcion = new javax.swing.JLabel();
+        jlblFechaHora = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
+        jtxtRun = new javax.swing.JTextField();
+        jbtnBuscar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jtxtNombre = new javax.swing.JTextField();
+        jtxtApellidos = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jtxtCategoria = new javax.swing.JTextField();
+        jbtnComprar = new javax.swing.JButton();
+        jbtnLimpiar = new javax.swing.JButton();
+        jbtnCancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jLabel6.setForeground(new java.awt.Color(153, 255, 255));
+        jLabel6.setText("jLabel6");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Venta de Ticket");
         setBackground(new java.awt.Color(0, 0, 0));
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(800, 460));
-
         jlblImagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Estadio Monumental - David Arellano");
-        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jlblestadio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblestadio.setText("Estadio Monumental - David Arellano");
+        jlblestadio.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         buttonGroup1.add(jrbtRapanui);
-        jrbtRapanui.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
-        jrbtRapanui.setForeground(new java.awt.Color(255, 255, 255));
         jrbtRapanui.setText("Rapa Nui");
         jrbtRapanui.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,8 +185,6 @@ public class ComprarTicket extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jrbtCordillera);
-        jrbtCordillera.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
-        jrbtCordillera.setForeground(new java.awt.Color(255, 255, 255));
         jrbtCordillera.setText("Cordillera");
         jrbtCordillera.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,8 +193,6 @@ public class ComprarTicket extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jrbtOceano);
-        jrbtOceano.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
-        jrbtOceano.setForeground(new java.awt.Color(255, 255, 255));
         jrbtOceano.setText("Oceano");
         jrbtOceano.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,8 +201,6 @@ public class ComprarTicket extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jrbtCaupolican);
-        jrbtCaupolican.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
-        jrbtCaupolican.setForeground(new java.awt.Color(255, 255, 255));
         jrbtCaupolican.setText("Caupolican");
         jrbtCaupolican.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,8 +209,6 @@ public class ComprarTicket extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jrbtGalvarino);
-        jrbtGalvarino.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
-        jrbtGalvarino.setForeground(new java.awt.Color(255, 255, 255));
         jrbtGalvarino.setText("Galvarino");
         jrbtGalvarino.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,8 +217,6 @@ public class ComprarTicket extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jrbtLautaro);
-        jrbtLautaro.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
-        jrbtLautaro.setForeground(new java.awt.Color(255, 255, 255));
         jrbtLautaro.setText("Lautaro");
         jrbtLautaro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,8 +225,6 @@ public class ComprarTicket extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jrbtTucapel);
-        jrbtTucapel.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
-        jrbtTucapel.setForeground(new java.awt.Color(255, 255, 255));
         jrbtTucapel.setText("Tucapel");
         jrbtTucapel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,8 +233,6 @@ public class ComprarTicket extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jrbtArica);
-        jrbtArica.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
-        jrbtArica.setForeground(new java.awt.Color(255, 255, 255));
         jrbtArica.setText("Arica");
         jrbtArica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -231,8 +241,6 @@ public class ComprarTicket extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jrbtMagallanes);
-        jrbtMagallanes.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
-        jrbtMagallanes.setForeground(new java.awt.Color(255, 255, 255));
         jrbtMagallanes.setText("Magallanes");
         jrbtMagallanes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,241 +248,144 @@ public class ComprarTicket extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("SECTORES");
 
-        jlblPrecioOceano.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 14)); // NOI18N
-        jlblPrecioOceano.setForeground(new java.awt.Color(255, 255, 255));
         jlblPrecioOceano.setText("$ 30.000");
 
-        jlblPrecioRapanui.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 14)); // NOI18N
-        jlblPrecioRapanui.setForeground(new java.awt.Color(255, 255, 255));
         jlblPrecioRapanui.setText("$ 45.000");
 
-        jlblPrecioCordillera.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 14)); // NOI18N
-        jlblPrecioCordillera.setForeground(new java.awt.Color(255, 255, 255));
         jlblPrecioCordillera.setText("$ 20.000");
 
-        jlblPrecioCaupolican.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 14)); // NOI18N
-        jlblPrecioCaupolican.setForeground(new java.awt.Color(255, 255, 255));
         jlblPrecioCaupolican.setText("$ 10.000");
 
-        jLabel7.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("PRECIOS");
 
-        jlblPrecioGalvarino.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 14)); // NOI18N
-        jlblPrecioGalvarino.setForeground(new java.awt.Color(255, 255, 255));
         jlblPrecioGalvarino.setText("$ 10.000");
 
-        jlblPrecioLautaro.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 14)); // NOI18N
-        jlblPrecioLautaro.setForeground(new java.awt.Color(255, 255, 255));
         jlblPrecioLautaro.setText("$ 10.000");
 
-        jlblPrecioTucapel.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 14)); // NOI18N
-        jlblPrecioTucapel.setForeground(new java.awt.Color(255, 255, 255));
         jlblPrecioTucapel.setText("$ 10.000");
 
-        jlblPrecioArica.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 14)); // NOI18N
-        jlblPrecioArica.setForeground(new java.awt.Color(255, 255, 255));
         jlblPrecioArica.setText("$   8.000");
 
-        jlblPrecioMagallanes.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 14)); // NOI18N
-        jlblPrecioMagallanes.setForeground(new java.awt.Color(255, 255, 255));
         jlblPrecioMagallanes.setText("$   8.000");
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logoColoColo.png"))); // NOI18N
 
-        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos de la Compra", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        jlblLocalVisita.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jlblLocalVisita.setText("jLabel10");
 
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jlblDescripcion.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jlblDescripcion.setText("jLabel11");
+
+        jlblFechaHora.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jlblFechaHora.setText("jLabel12");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Comprador"));
+
         jLabel4.setText("RUN");
 
-        jButton2.setBackground(new java.awt.Color(0, 102, 255));
-        jButton2.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Buscar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jbtnBuscar.setBackground(new java.awt.Color(0, 102, 255));
+        jbtnBuscar.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        jbtnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnBuscar.setText("Buscar");
+        jbtnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jbtnBuscarActionPerformed(evt);
             }
         });
 
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("NOMBRE");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(30, 30, 30)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(430, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(71, Short.MAX_VALUE))
-        );
+        jLabel8.setText("APELLIDOS");
 
-        jLabel6.setForeground(new java.awt.Color(153, 255, 255));
-        jLabel6.setText("jLabel6");
+        jtxtNombre.setEnabled(false);
+
+        jtxtApellidos.setEnabled(false);
+
+        jLabel9.setText("CATEGORIA CLIENTE");
+
+        jtxtCategoria.setEnabled(false);
+
+        jbtnComprar.setBackground(new java.awt.Color(0, 102, 0));
+        jbtnComprar.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        jbtnComprar.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnComprar.setText("Vender");
+        jbtnComprar.setEnabled(false);
+        jbtnComprar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnComprarActionPerformed(evt);
+            }
+        });
+
+        jbtnLimpiar.setText("Limpiar");
+
+        jbtnCancelar.setText("Cancelar");
+        jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jlblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(163, 163, 163)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
-                                                .addGap(34, 34, 34))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jrbtRapanui, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jlblPrecioRapanui, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(9, 9, 9)
-                                                .addComponent(jLabel7))))
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jrbtCaupolican, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jlblPrecioCaupolican, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jrbtOceano, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jlblPrecioOceano, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jrbtCordillera, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jlblPrecioCordillera, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jrbtGalvarino, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jlblPrecioGalvarino, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jrbtLautaro, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jlblPrecioLautaro, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jrbtTucapel, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jlblPrecioTucapel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jrbtArica, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jlblPrecioArica, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jrbtMagallanes, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jlblPrecioMagallanes, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jtxtRun, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(jbtnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel9)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jtxtCategoria, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxtNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(87, 87, 87)
-                                .addComponent(jLabel1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(77, 77, 77)
-                                .addComponent(jLabel6)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                            .addComponent(jLabel8)
+                            .addComponent(jtxtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(233, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jbtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jbtnComprar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jlblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jrbtRapanui)
-                            .addComponent(jlblPrecioRapanui, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jrbtOceano)
-                            .addComponent(jlblPrecioOceano, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jrbtCordillera)
-                            .addComponent(jlblPrecioCordillera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jrbtCaupolican)
-                            .addComponent(jlblPrecioCaupolican, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jrbtGalvarino)
-                            .addComponent(jlblPrecioGalvarino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jrbtLautaro)
-                            .addComponent(jlblPrecioLautaro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jrbtTucapel)
-                            .addComponent(jlblPrecioTucapel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jrbtArica)
-                            .addComponent(jlblPrecioArica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jrbtMagallanes)
-                            .addComponent(jlblPrecioMagallanes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(44, 44, 44)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(111, 111, 111))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtxtRun, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtxtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtxtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbtnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                    .addComponent(jbtnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnComprar, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -482,12 +393,136 @@ public class ComprarTicket extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 864, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(58, 58, 58)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlblLocalVisita)
+                    .addComponent(jlblDescripcion)
+                    .addComponent(jlblFechaHora))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(124, 124, 124))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(jlblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jrbtRapanui, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(47, 47, 47)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jlblPrecioRapanui, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jrbtOceano, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jlblPrecioOceano, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jrbtMagallanes, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jlblPrecioMagallanes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jrbtArica, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jlblPrecioArica, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jrbtCordillera, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jlblPrecioCordillera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jrbtCaupolican, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jlblPrecioCaupolican, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jrbtGalvarino, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jlblPrecioGalvarino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jrbtLautaro, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jlblPrecioLautaro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jrbtTucapel, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jlblPrecioTucapel, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(93, 93, 93))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(158, 158, 158)
+                        .addComponent(jlblestadio)))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 886, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(jlblLocalVisita)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jlblDescripcion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jlblFechaHora)
+                        .addGap(63, 63, 63)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jrbtRapanui)
+                            .addComponent(jlblPrecioRapanui, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jrbtOceano)
+                            .addComponent(jlblPrecioOceano, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jrbtCordillera)
+                            .addComponent(jlblPrecioCordillera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jrbtCaupolican)
+                            .addComponent(jlblPrecioCaupolican, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jrbtGalvarino)
+                            .addComponent(jlblPrecioGalvarino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jrbtLautaro)
+                            .addComponent(jlblPrecioLautaro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jrbtTucapel)
+                            .addComponent(jlblPrecioTucapel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jlblPrecioArica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jrbtArica))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jrbtMagallanes)
+                            .addComponent(jlblPrecioMagallanes))
+                        .addGap(30, 30, 30))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel7))
+                        .addGap(5, 5, 5)
+                        .addComponent(jlblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jlblestadio)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -530,9 +565,178 @@ public class ComprarTicket extends javax.swing.JFrame {
         imgMagallanes();
     }//GEN-LAST:event_jrbtMagallanesActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jbtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBuscarActionPerformed
+
+        limpiar();
+
+        if (this.jrbtArica.isSelected() || this.jrbtMagallanes.isSelected() || this.jrbtCaupolican.isSelected()
+                || this.jrbtTucapel.isSelected() || this.jrbtLautaro.isSelected() || this.jrbtGalvarino.isSelected()
+                || this.jrbtCordillera.isSelected() || this.jrbtOceano.isSelected() || this.jrbtRapanui.isSelected()) {
+            if (consultarCliente(this.jtxtRun.getText())) {
+                habilitar();
+                noEditar();
+                rutCliente = this.jtxtRun.getText();
+                this.jbtnComprar.setEnabled(true);
+                
+            } else if (this.jtxtRun.getText().isBlank()) {
+                JOptionPane.showMessageDialog(null, "Debe ingresar un RUN", "Run Vacío", 0);
+                this.jtxtRun.requestFocus();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe el RUN " + this.jtxtRun.getText(), "Error al buscar RUN", 0);
+                this.jtxtRun.requestFocus();
+                limpiar();
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un sector del Estadio", "Error de Seleccion de Sector", 1);
+        }
+    }//GEN-LAST:event_jbtnBuscarActionPerformed
+
+    private void jbtnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnComprarActionPerformed
+        int sector = 0, precio = 0;
+
+        int resp = JOptionPane.showConfirmDialog(this, "¿Desea confirmar la compra?", "COnfirmación de Compra", JOptionPane.YES_NO_OPTION, 0);
+        if (resp == 0) {
+            if (this.jrbtRapanui.isSelected()) {
+                sector = 1;
+                precio = 45000;
+            } else if (this.jrbtOceano.isSelected()) {
+                sector = 2;
+                precio = 30000;
+            } else if (this.jrbtCordillera.isSelected()) {
+                sector = 3;
+                precio = 20000;
+            } else if (this.jrbtCaupolican.isSelected()) {
+                sector = 4;
+                precio = 10000;
+            } else if (this.jrbtGalvarino.isSelected()) {
+                sector = 5;
+                precio = 10000;
+            } else if (this.jrbtLautaro.isSelected()) {
+                sector = 6;
+                precio = 10000;
+            } else if (this.jrbtTucapel.isSelected()) {
+                sector = 7;
+                precio = 10000;
+            } else if (this.jrbtArica.isSelected()) {
+                sector = 8;
+                precio = 8000;
+            } else {
+                sector = 9;
+                precio = 8000;
+            }
+
+            //Ticket ticket = new Ticket(0, precio, rutCliente, 1, sector, idEvento);
+            Ticket ticket = new Ticket(0, precio, rutCliente, null, 1, sector, idEvento);
+            PagarTicket window = new PagarTicket(ticket);
+            window.setVisible(true);
+            this.dispose();
+            //RegistroVenta regven = RegistroVenta();
+            
+//            if (regven.agregar(venta)) {
+//                JOptionPane.showMessageDialog(this, "Se agregó el Cliente", "Aviso", 1);
+//                limpiar();
+//            } else {
+//                JOptionPane.showMessageDialog(this, "No se agregó el cliente", "Aviso", 1);
+//            }
+
+            //VentaTicket window = VentaTicket(venta);
+//            VentaTicket window = VentaTicket(venta);
+//            
+            //
+        }
+    }//GEN-LAST:event_jbtnComprarActionPerformed
+
+    private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jbtnCancelarActionPerformed
+
+    private String consultarEquipo(int idVisita) {
+        String equipoVisita;
+        RegistroEquipo re = new RegistroEquipo();
+        Equipo equipo = re.buscarPorId(idVisita);
+        equipoVisita = equipo.getNombreEquipo();
+
+        return equipoVisita;
+    }
+
+    private String consultarUbicacion(int idUbicacion) {
+        String nomUbic;
+
+        RegistroUbicacion rc = new RegistroUbicacion();
+        UbicacionEstadio ubicacion = rc.buscarPorId(idUbicacion);
+        nomUbic = ubicacion.getNombreUbicacion();
+
+        return nomUbic;
+    }
+
+    private void consultarEstadio(int idEst) {
+
+        RegistroEstadio res = new RegistroEstadio();
+        Estadio estadio = res.buscarPorId(idEst);
+        idEstadio = estadio.getIdEstadio();
+        nomEstadio = estadio.getNombreEstadio();
+
+        System.out.println(nomEstadio);
+        this.jlblestadio.setText(nomEstadio);
+    }
+
+    private String consultarCategoria(int idCategoria) {
+        String nomCategoria;
+
+        RegistroCategoria rc = new RegistroCategoria();
+        Categoria categoria = rc.buscarPorId(idCategoria);
+        nomCategoria = categoria.getNombreCategoria();
+
+        return nomCategoria;
+    }
+
+    private boolean consultarCliente(String run) {
+        String equipoVisita, runcli;
+        RegistroCliente rc = new RegistroCliente();
+        Cliente cliente = rc.buscarPorRut(run);
+
+        runcli = cliente.getRutCliente();
+        System.out.println(runcli);
+        if (runcli != null) {
+            this.jtxtNombre.setText(cliente.getNombre());
+            this.jtxtApellidos.setText(cliente.getAppaterno() + " " + cliente.getApmaterno());
+            this.jtxtCategoria.setText(consultarCategoria(cliente.getCategoria()));
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public void consultarEvento() {
+        RegistroEvento regev = new RegistroEvento();
+        Evento evento = regev.buscarPorId(idEvento);
+
+        this.jlblLocalVisita.setText(evento.getEquipoLocal() + " vs " + consultarEquipo(evento.getVisita()));
+        this.jlblDescripcion.setText(evento.getDescripcionEvento() + " | Jornada: " + evento.getJornadaEvento());
+        this.jlblFechaHora.setText(evento.getFechaEvento() + " | " + evento.getHoraEvento() + " hrs");
+
+    }
+
+    public void limpiar() {
+        this.jtxtNombre.setText("");
+        this.jtxtApellidos.setText("");
+        this.jtxtCategoria.setText("");
+    }
+
+    public void noEditar() {
+        this.jtxtNombre.setEditable(false);
+        this.jtxtApellidos.setEditable(false);
+        this.jtxtCategoria.setEditable(false);
+    }
+
+    public void habilitar() {
+        this.jtxtNombre.setEnabled(true);
+        this.jtxtApellidos.setEnabled(true);
+        this.jtxtCategoria.setEnabled(true);
+    }
 
     /**
      * @param args the command line arguments
@@ -571,19 +775,23 @@ public class ComprarTicket extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JButton jbtnBuscar;
+    private javax.swing.JButton jbtnCancelar;
+    private javax.swing.JButton jbtnComprar;
+    private javax.swing.JButton jbtnLimpiar;
+    private javax.swing.JLabel jlblDescripcion;
+    private javax.swing.JLabel jlblFechaHora;
     private javax.swing.JLabel jlblImagen;
+    private javax.swing.JLabel jlblLocalVisita;
     private javax.swing.JLabel jlblPrecioArica;
     private javax.swing.JLabel jlblPrecioCaupolican;
     private javax.swing.JLabel jlblPrecioCordillera;
@@ -593,6 +801,7 @@ public class ComprarTicket extends javax.swing.JFrame {
     private javax.swing.JLabel jlblPrecioOceano;
     private javax.swing.JLabel jlblPrecioRapanui;
     private javax.swing.JLabel jlblPrecioTucapel;
+    private javax.swing.JLabel jlblestadio;
     private javax.swing.JRadioButton jrbtArica;
     private javax.swing.JRadioButton jrbtCaupolican;
     private javax.swing.JRadioButton jrbtCordillera;
@@ -602,5 +811,11 @@ public class ComprarTicket extends javax.swing.JFrame {
     private javax.swing.JRadioButton jrbtOceano;
     private javax.swing.JRadioButton jrbtRapanui;
     private javax.swing.JRadioButton jrbtTucapel;
+    private javax.swing.JTextField jtxtApellidos;
+    private javax.swing.JTextField jtxtCategoria;
+    private javax.swing.JTextField jtxtNombre;
+    private javax.swing.JTextField jtxtRun;
     // End of variables declaration//GEN-END:variables
+
+    
 }

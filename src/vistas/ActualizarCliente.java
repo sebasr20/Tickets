@@ -72,9 +72,6 @@ public class ActualizarCliente extends javax.swing.JFrame {
         setTitle("Eliminar Cliente");
         setResizable(false);
 
-        jbtnCancelar.setBackground(new java.awt.Color(204, 0, 0));
-        jbtnCancelar.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        jbtnCancelar.setForeground(new java.awt.Color(255, 255, 255));
         jbtnCancelar.setText("Cancelar");
         jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,9 +127,6 @@ public class ActualizarCliente extends javax.swing.JFrame {
             }
         });
 
-        jbtnLimpiar.setBackground(new java.awt.Color(102, 102, 102));
-        jbtnLimpiar.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        jbtnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         jbtnLimpiar.setText("Limpiar");
         jbtnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -332,13 +326,19 @@ public class ActualizarCliente extends javax.swing.JFrame {
         idcat = this.jcmb_categoria.getSelectedIndex() + 1;
         
         Cliente cliente = new Cliente(runSeleccionado, nombre, appaterno, apmaterno, idcat);
-
-        regcli.actualizar(cliente);
-        JOptionPane.showMessageDialog(null, "Datos Actualizados", "Aviso", 2);
-        limpiar();
-        rutCliente = "";
-        mostrarTabla();
-        desactivarTextBox();
+        
+        if (regcli.actualizar(cliente)) {
+            JOptionPane.showMessageDialog(null, "Datos Actualizados", "Aviso", 2);
+            limpiar();
+            rutCliente = "";
+            mostrarTabla();
+            desactivarTextBox();
+        }else{
+            JOptionPane.showMessageDialog(null, "Error al actualizar los Datos", "Error al actualizar", 1);
+        }
+        
+        
+        
     }//GEN-LAST:event_jbtnActualizarActionPerformed
 
     private String consultarCategoria(int idCat) {

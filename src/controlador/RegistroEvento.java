@@ -12,9 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import modelo.Evento;
 
 /**
@@ -60,7 +58,7 @@ public class RegistroEvento {
             Conexion con = new Conexion();
             Connection cnx = con.obtenerConexion();
 
-            String query = "SELECT idEvento, equipoLocal,descripcionEvento,jornadaEvento,fechaEvento,horaEvento,estadoEvento,idVisita FROM evento order by fechaEvento DESC";
+            String query = "SELECT idEvento, equipoLocal,descripcionEvento,jornadaEvento,fechaEvento,horaEvento,estadoEvento,idVisita FROM evento order by fechaEvento";
             PreparedStatement stmt = cnx.prepareStatement(query);
 
             ResultSet rs = stmt.executeQuery();

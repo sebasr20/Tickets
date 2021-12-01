@@ -58,9 +58,6 @@ public class EliminarCliente extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Eliminar Cliente");
 
-        jbtnCancelar.setBackground(new java.awt.Color(204, 0, 0));
-        jbtnCancelar.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        jbtnCancelar.setForeground(new java.awt.Color(255, 255, 255));
         jbtnCancelar.setText("Cancelar");
         jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,9 +113,6 @@ public class EliminarCliente extends javax.swing.JFrame {
             }
         });
 
-        jbtnLimpiar.setBackground(new java.awt.Color(102, 102, 102));
-        jbtnLimpiar.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        jbtnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         jbtnLimpiar.setText("Limpiar");
         jbtnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,7 +202,8 @@ public class EliminarCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnCancelarActionPerformed
 
     private void jbtnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnListarActionPerformed
-
+        
+        
         try {
             rutCliente = this.jtxtRun.getText();
         } catch (Exception e) {
@@ -222,6 +217,7 @@ public class EliminarCliente extends javax.swing.JFrame {
     private void jbtnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLimpiarActionPerformed
         this.jtxtRun.setText("");
         this.jtxtRun.requestFocus();
+        this.jbtnEliminar.setEnabled(false);
     }//GEN-LAST:event_jbtnLimpiarActionPerformed
 
     private void jbtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEliminarActionPerformed

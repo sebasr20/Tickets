@@ -6,28 +6,26 @@
 package vistas;
 
 import controlador.RegistroEquipo;
-import controlador.RegistroEvento;
-import java.util.Date;
+import controlador.RegistroTicket;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import modelo.Equipo;
-import modelo.Evento;
+import modelo.Ticket;
 
 /**
  *
  * @author Sebastian
  */
-public class ListarEvento extends javax.swing.JFrame {
+public class ListarTicketClientes extends javax.swing.JFrame {
 
-    private int idEvento, jornada, idVisita;
-    private String equipoLocal, descripcionEvento, horaEvento, nomVisita;
-    private Date fechaEvento;
+    private int idTicket, idEvento, precio;
+    String runCliente;
     private boolean disponible;
 
     /**
      * Creates new form ListarEvento
      */
-    public ListarEvento() {
+    public ListarTicketClientes() {
         initComponents();
         cargarTabla();
     }
@@ -58,7 +56,6 @@ public class ListarEvento extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblListarEventos = new javax.swing.JTable();
-        jbtnVender = new javax.swing.JButton();
 
         jLabel1.setText("jLabel1");
 
@@ -73,7 +70,7 @@ public class ListarEvento extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logoColoColo.png"))); // NOI18N
 
-        jLabel2.setText("BUSCAR EVENTO");
+        jLabel2.setText("BUSCAR ID EVENTO");
 
         jbtnBuscar.setBackground(new java.awt.Color(0, 102, 255));
         jbtnBuscar.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
@@ -102,7 +99,7 @@ public class ListarEvento extends javax.swing.JFrame {
         });
 
         jLabel6.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        jLabel6.setText("Listar Eventos Programados");
+        jLabel6.setText("Reporte de Ventas");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Eventos Programados"));
 
@@ -112,20 +109,15 @@ public class ListarEvento extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Visita", "Jornada", "Fecha", "Hora", "Estado"
+                "ID Ticket", "Run", "Precio", "ID Evento"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
-            }
-        });
-        jtblListarEventos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtblListarEventosMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jtblListarEventos);
@@ -147,17 +139,6 @@ public class ListarEvento extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jbtnVender.setBackground(new java.awt.Color(0, 102, 255));
-        jbtnVender.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        jbtnVender.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnVender.setText("Vender Ticket");
-        jbtnVender.setEnabled(false);
-        jbtnVender.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnVenderActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -166,20 +147,11 @@ public class ListarEvento extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jtxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbtnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlblEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jlblEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(395, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -187,14 +159,25 @@ public class ListarEvento extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jlblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jlblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jbtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jbtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbtnVender)
-                                .addGap(38, 38, 38)))))
-                .addContainerGap())
+                                .addGap(29, 29, 29))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jtxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jbtnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel6))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,8 +211,7 @@ public class ListarEvento extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jbtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbtnVender, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jbtnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
@@ -240,34 +222,7 @@ public class ListarEvento extends javax.swing.JFrame {
         cargarTabla();
     }//GEN-LAST:event_jbtnBuscarActionPerformed
 
-    private void jbtnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnVenderActionPerformed
-          int idEventoSeleccionado;
-//          
-          idEventoSeleccionado = Integer.parseInt(this.jlblidEvento.getText());
-//        equipoLocal = this.jlblEvento.getText();
-//        descripcionEvento = this.jlblDescripcion.getText();
-//        jornada = Integer.parseInt(this.jlblJornada.getText());
-//        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-//        fechaEvento = null;
-//        try {
-//            fechaEvento = formato.parse(this.jlblFecha.getText());
-//        } catch (ParseException e) {
-//            System.out.println("Error en la fecha " + e.getMessage());
-//        }
-//
-//        horaEvento = this.jlblHora.getText();
-        //Creo un objeto evento para enviar los datos seleccionados para realizar una venta desde la ventana ComprarTicket
-        //Evento evento = new Evento(idEvento, equipoLocal, descripcionEvento, fechaEvento, horaEvento, 0, true);
-       Evento evento = new Evento(idEventoSeleccionado, "", "", 0, null, null, 0, true);
-//
-        //Creo el Objeto de la Vista y le paso el evento
-        ComprarTicket window = new ComprarTicket(evento);
-        window.setVisible(true);
-        this.dispose();
-
-    }//GEN-LAST:event_jbtnVenderActionPerformed
-
-   private String consultarEquipo(int idVisita) {
+    private String consultarEquipo(int idVisita) {
         String equipoVisita;
         RegistroEquipo re = new RegistroEquipo();
         Equipo equipo = re.buscarPorId(idVisita);
@@ -275,24 +230,6 @@ public class ListarEvento extends javax.swing.JFrame {
 
         return equipoVisita;
     }
-
-    private void jtblListarEventosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblListarEventosMouseClicked
-        int jorEve;
-        //creo una variable para asignar el valor de la fila que estoy haciendo click
-        int seleccionar = this.jtblListarEventos.rowAtPoint(evt.getPoint());
-
-        //lleno los lbl con los datos obtenidos de cada columna de la fila
-        //idEvento = Integer.parseInt(String.valueOf(this.jtblListarEventos.getValueAt(seleccionar, 0)));
-        this.jlblidEvento.setText(String.valueOf(this.jtblListarEventos.getValueAt(seleccionar, 0)));
-        this.jlblEvento.setText(equipoLocal + " vs " + String.valueOf(this.jtblListarEventos.getValueAt(seleccionar, 1)));
-        jorEve = Integer.parseInt(String.valueOf(this.jtblListarEventos.getValueAt(seleccionar, 2)));
-        this.jlblDescripcion.setText(descripcionEvento + " | JORNADA: "+ jorEve);
-        this.jlblFecha.setText(String.valueOf(this.jtblListarEventos.getValueAt(seleccionar, 3)));
-        this.jlblHora.setText(String.valueOf(this.jtblListarEventos.getValueAt(seleccionar, 4)));
-        
-        this.jbtnVender.setEnabled(true);
-        
-    }//GEN-LAST:event_jtblListarEventosMouseClicked
 
     private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
         this.dispose();
@@ -302,12 +239,11 @@ public class ListarEvento extends javax.swing.JFrame {
         limpiar();
         idEvento = 0;
         cargarTabla();
-        this.jbtnVender.setEnabled(false);
         this.jtxtBuscar.requestFocus();
     }//GEN-LAST:event_jbtnLimpiarActionPerformed
 
     public void cargarTabla() {
-        RegistroEvento regev = new RegistroEvento();
+        RegistroTicket regtick = new RegistroTicket();
         DefaultTableModel modelo = (DefaultTableModel) this.jtblListarEventos.getModel();
 
         try {
@@ -319,39 +255,26 @@ public class ListarEvento extends javax.swing.JFrame {
         modelo.setRowCount(0);
 
         if (idEvento == 0) {//listar todos
-            List<Evento> lista = regev.buscarTodos();
+            List<Ticket> lista = regtick.buscarTodos();
 
-            for (Evento evento : lista) {
-                idEvento = evento.getIdEvento();
-                equipoLocal = evento.getEquipoLocal();
-                descripcionEvento = evento.getDescripcionEvento();
-                idVisita = evento.getVisita();
-                
-                nomVisita = this.consultarEquipo(idVisita);
-                
-                jornada = evento.getJornadaEvento();
-                fechaEvento = evento.getFechaEvento();
-                horaEvento = evento.getHoraEvento();
-                disponible = evento.isDisponible();
+            for (Ticket ticket : lista) {
+                idTicket = ticket.getIdTicket();
+                idEvento = ticket.getIdEvento();
+                precio = ticket.getPrecioTicket();
+                runCliente = ticket.getRutCliente();
 
-                modelo.addRow(new Object[]{idEvento, nomVisita, jornada, fechaEvento, horaEvento, disponible});
+                modelo.addRow(new Object[]{idTicket, runCliente, precio, idEvento});
             }
         } else { //listar por id
+            List<Ticket> lista2 = regtick.buscarTicketPorIdEvento(idEvento);
+            for (Ticket ticket : lista2) {
+                idTicket = ticket.getIdTicket();
+                idEvento = ticket.getIdEvento();
+                precio = ticket.getPrecioTicket();
+                runCliente = ticket.getRutCliente();
 
-            Evento evento = regev.buscarPorId(idEvento);
-            idEvento = evento.getIdEvento();
-            equipoLocal = evento.getEquipoLocal();
-            descripcionEvento = evento.getDescripcionEvento();
-            idVisita = evento.getVisita();
-            
-            nomVisita = this.consultarEquipo(idVisita);
-            
-            jornada = evento.getJornadaEvento();
-            fechaEvento = evento.getFechaEvento();
-            horaEvento = evento.getHoraEvento();
-            disponible = evento.isDisponible();
-
-            modelo.addRow(new Object[]{idEvento, nomVisita, jornada, fechaEvento, horaEvento, disponible});
+                modelo.addRow(new Object[]{idTicket, runCliente, precio, idEvento});
+            }
         }
 
     }
@@ -394,7 +317,7 @@ public class ListarEvento extends javax.swing.JFrame {
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new ListarEvento().setVisible(true);
+//                new ListarTicketClientes().setVisible(true);
 //            }
 //        });
 //    }
@@ -409,7 +332,6 @@ public class ListarEvento extends javax.swing.JFrame {
     private javax.swing.JButton jbtnBuscar;
     private javax.swing.JButton jbtnCancelar;
     private javax.swing.JButton jbtnLimpiar;
-    private javax.swing.JButton jbtnVender;
     private javax.swing.JLabel jlblDescripcion;
     private javax.swing.JLabel jlblEvento;
     private javax.swing.JLabel jlblFecha;
